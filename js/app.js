@@ -17,9 +17,9 @@
   }
 })();
 
-// 注册 Service Worker（仅 HTTPS 或 localhost 下可用）
-if ('serviceWorker' in navigator) {
+// 注册 Service Worker（仅 HTTPS 或 localhost 下可用；本地双击打开的 file:// 跳过）
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', function () {
-    navigator.serviceWorker.register('/sw.js');
+    navigator.serviceWorker.register('sw.js');
   });
 }

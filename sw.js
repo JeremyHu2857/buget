@@ -1,13 +1,15 @@
 // 网络优先、缓存兜底：联网时总是拿最新版本，断网时也能打开
-const CACHE = 'jizhang-v1';
+// 路径均相对于 sw.js 所在目录，部署在子路径（如 GitHub Pages 的 /仓库名/）下也可用
+const CACHE = 'jizhang-v2';
 const ASSETS = [
-  '/',
-  '/css/style.css',
-  '/js/app.js',
-  '/manifest.json',
-  '/icons/apple-touch-icon.png',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  './',
+  'index.html',
+  'css/style.css',
+  'js/app.js',
+  'manifest.json',
+  'icons/apple-touch-icon.png',
+  'icons/icon-192.png',
+  'icons/icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
