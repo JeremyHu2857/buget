@@ -1,3 +1,4 @@
+/* 尺寸、色值均取自即时设计「首页」画板（390×844） */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
@@ -14,8 +15,8 @@ html, body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  color: #333;
+  font-family: "Source Han Sans CN", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #303030;
 }
 
 .app {
@@ -24,7 +25,7 @@ body {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, #f5f5f5 0, #f0f0f0 140px, #f0f0f0 100%);
+  background: #f0f0f0;
 }
 
 button {
@@ -37,41 +38,60 @@ button {
   outline: none;
 }
 
-/* ---------- 顶部栏 ---------- */
-/* 设计稿 top:52 = 系统状态栏 + 8px；状态栏由 iOS 原生显示，页面从其下方开始 */
+/* ---------- 导航栏 ---------- */
+/* 设计稿：状态栏 0–48（iOS 原生），导航栏 56–100；背景渐变 0–140 */
 .header {
+  position: relative;
+  z-index: 1;
   flex: none;
   padding-top: env(safe-area-inset-top, 0px);
 }
+.header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(env(safe-area-inset-top, 0px) + 92px);
+  background: linear-gradient(to bottom,
+    #f0f0f0 40%,
+    rgba(240, 240, 240, 0.8) 73.9%,
+    rgba(240, 240, 240, 0) 100%);
+  pointer-events: none;
+}
 .header-inner {
-  height: 36px;
+  height: 44px;
   margin-top: 8px;
-  padding: 0 25px 0 16px;
+  padding: 0 16px 0 17px;
   display: flex;
   align-items: center;
 }
 .icon-btn {
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.calendar-btn { width: 36px; height: 36px; }
+.calendar-btn { position: relative; top: -1px; }
 .date {
-  margin-left: 14px;
-  font-size: 21px;
+  margin-left: 6px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1;
-  color: #333;
+  line-height: 29px;
+  color: #303030;
   white-space: nowrap;
 }
 .date .today {
-  margin-left: 13px;
-  color: #9b9b9b;
+  margin-left: 6px;
+  color: rgba(48, 48, 48, 0.4);
 }
 .spacer { flex: 1; }
-.setting-btn { margin-left: 25px; }
+.setting-btn { margin-left: 11px; }
 
 /* ---------- 主内容 ---------- */
+/* 纵向间距按设计稿：导航栏底 100 → 外环 220 → 金额 560 → 菜单栏 742 */
 .main {
   flex: 1;
   display: flex;
@@ -79,57 +99,55 @@ button {
   align-items: center;
   min-height: 0;
 }
-.gap-top    { flex: 167 1 0; }
-.gap-mid    { flex: 144 1 0; }
-.gap-bottom { flex: 166 1 0; }
+.gap-top    { flex: 120 1 0; }
+.gap-mid    { flex: 100 1 0; }
+.gap-bottom { flex: 134 1 0; }
 
-/* 表盘：外径 284，圆心在 (142,142) */
+/* 主显示：240×240，以下坐标均相对外环左上角 (75,220) */
 .gauge {
   position: relative;
   flex: none;
-  width: 284px;
-  height: 266px;
+  width: 240px;
+  height: 240px;
 }
 .gauge svg {
   position: absolute;
   left: 0;
   top: 0;
-  width: 284px;
-  height: 266px;
-  overflow: visible;
+  width: 240px;
+  height: 240px;
 }
 .gauge-value {
   position: absolute;
   left: 0;
   right: 0;
-  top: 142px;
-  transform: translateY(-50%);
+  top: 66px;
+  height: 93px;
   text-align: center;
-  font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif;
-  font-size: 72px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 2px;
-  color: #4f4f4f;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 93px;
+  color: rgba(48, 48, 48, 0.8);
 }
 .gauge-pill {
   position: absolute;
-  left: 50%;
-  top: 224px;
-  width: 31px;
-  height: 15px;
-  margin: -7.5px 0 0 -15.5px;
+  left: 105px;
+  top: 165px;
+  width: 30px;
+  height: 16px;
   border-radius: 4px;
-  background: #d6d6d6;
+  background: rgba(48, 48, 48, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
+/* 8px 文字：用 16px 缩放一半，绕开浏览器最小字号限制 */
 .gauge-pill span {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
   line-height: 1;
-  color: #6a6a6a;
+  color: rgba(48, 48, 48, 0.6);
   white-space: nowrap;
   transform: scale(0.5);
 }
@@ -137,65 +155,71 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  top: 255px;
-  transform: translateY(-50%);
+  top: 188px;
   text-align: center;
-  font-size: 18.5px;
-  line-height: 1;
-  letter-spacing: 0.5px;
-  color: #555;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 29px;
+  color: rgba(48, 48, 48, 0.8);
 }
 
-/* 金额 */
+/* ---------- 今日剩余数值 ---------- */
 .amount {
   flex: none;
   display: flex;
   align-items: center;
-  height: 35px;
+  height: 48px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 300;
 }
 .amount .yen {
-  width: 28.5px;
-  height: 35px;
-  border-radius: 3px;
-  background: #4f4f4f;
+  width: 32px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(48, 48, 48, 0.8);
   color: #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: 25px;
-  font-weight: 300;
+  font-size: 32px;
   line-height: 1;
 }
 .amount .num {
-  margin-left: 11.5px;
-  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  margin-left: 7px;
   font-size: 40px;
-  font-weight: 300;
-  line-height: 1;
-  color: #555;
+  line-height: 48px;
+  color: rgba(48, 48, 48, 0.8);
 }
 
-/* ---------- 底部操作栏 ---------- */
+/* ---------- 菜单栏 ---------- */
+/* 设计稿：背景渐变 742–810，纯色 810–844；按钮 752–800，左右边距 24 */
 .bottom-bar {
   flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 19px;
-  padding-bottom: calc(max(env(safe-area-inset-bottom, 0px), 34px) + 18px);
+  padding: 10px 24px;
+  padding-bottom: calc(max(env(safe-area-inset-bottom, 0px), 34px) + 10px);
+  background:
+    linear-gradient(to top, #f0f0f0 0, rgba(240, 240, 240, 0.3) 85.29%, rgba(240, 240, 240, 0) 100%) top / 100% 68px no-repeat,
+    linear-gradient(#f0f0f0, #f0f0f0) 0 68px / 100% 100% no-repeat;
 }
-.round-btn,
-.add-btn {
-  height: 57px;
-  background: #f6f6f6;
+/* 外框：白色填充 60% × 图层 60%，1px 内描边白色 × 图层 60%；背景模糊 4 */
+.glass-btn {
+  position: relative;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   transition: transform .12s ease;
 }
-.round-btn { width: 57px; border-radius: 50%; }
-.add-btn { width: 104px; height: 56px; border-radius: 28px; }
-.round-btn:active,
-.add-btn:active { transform: scale(0.94); }
+.glass-btn.round { width: 48px; border-radius: 50%; }
+.glass-btn.pill  { width: 80px; border-radius: 24px; }
+.glass-btn:first-child { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), 2px 3px 10px rgba(48, 48, 48, 0.1); }
+.glass-btn.pill        { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), 0 5px 10px rgba(48, 48, 48, 0.1); }
+.glass-btn:last-child  { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), -2px 3px 10px rgba(48, 48, 48, 0.1); }
+.glass-btn:active { transform: scale(0.94); }
